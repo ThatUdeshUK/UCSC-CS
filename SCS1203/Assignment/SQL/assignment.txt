@@ -1,0 +1,55 @@
+-- Q1
+select h.name, r.room_no ,r.type ,r.price 
+from room as r inner join hotel as h on h.hotel_no = r.hotel_no 
+where (r.type = 'Double' or r.type = 'Family') and r.price < 7500 
+order by r.price; 
+
+-- Q2
+select r.room_no, r.hotel_no, type, price, g.name
+from ((room as r left join booking as b on r.room_no = b.room_no and r.hotel_no = b.hotel_no) left join guest as g on b.guest_no = g.guest_no)
+where r.hotel_no in (
+	select hotel_no from hotel where name = 'Anilana Nilaveli'
+); 
+
+-- Q3
+select sum(price) as total_revenue
+from room
+where type = 'Double' and hotel_no in (
+	select hotel_no from hotel where name = 'Anilana Nilaveli'
+); 
+
+-- Q4
+select sum(price) as total_income_today
+from room as r inner join booking as b on r.room_no = b.room_no and r.hotel_no = b.hotel_no 
+where r.hotel_no in (
+	select hotel_no from hotel where name = 'Anilana Nilaveli'
+) and date_from <= CURDATE() and date_to >= CURDATE(); 
+
+-- Q5
+select h.name, count(room_no) as no_of_rooms
+from room as r inner join hotel as h on r.hotel_no = h.hotel_no
+where h.address like '%Dambulla%'
+group by r.hotel_no;
+
+-- Q6
+select name
+from hotel
+where address like '%Dambulla%' and hotel_no in (
+	select hotel_no from room where type = 'Double'
+) and hotel_no in (
+	select hotel_no from room where type = 'Family'
+);
+
+-- Q7
+select h.name, h.address
+from room as r inner join hotel as h on r.hotel_no = h.hotel_no
+where r.type = 'Double' and h.address like '%Colombo%' 
+order by r.price DESC
+limit 1;
+
+-- Q8
+select name
+from hotel
+where hotel_no not in (
+	select hotel_no from room where type = 'Double'
+);
