@@ -9,6 +9,30 @@ int getHeight(btree *root);
 void printLevel(btree *root, int level);
 void leveOrderTraverse(btree *root);
 
+void rotateLeft(btree *root) {
+    if (root->right->left == NULL) {
+        root->right->left = root;
+        root = root->right;
+    } else {
+        btree *temp = root->right->left;
+        root->right->left = root;
+        root = root->right;
+        root->left->right = temp;
+    }
+}
+
+void rotateRight(btree *root) {
+    if (root->left->right == NULL) {
+        root->left->right = root;
+        root = root->left;
+    } else {
+        btree *temp = root->left->right;
+        root->left->right = root;
+        root = root->left;
+        root->right->left = temp;
+    }
+}
+
 btree *insert(btree *root, int data) {
     if (root == NULL) {
         root = getVertex(data);
@@ -24,25 +48,17 @@ btree *insert(btree *root, int data) {
         if (diff >= 2) {
             if (root->data > data) {
                 if (root->left->data > data) {
-                    if (root->left->right == NULL) {
-                        root->left->right = root->right;
-                        root = root->left;
-                    } else {
-                        
-                    }
+                    rotateRight(root);
                 } else {
-
+                    rotateLeft(root->left);
+                    rotateRight(root);
                 }
             } else if (root->data < data) {
-                if (root->right->data > data) {
-
+                if (root->right->data < data) {
+                    rotateLeft(root);
                 } else {
-                    if (root->right->left == NULL) {
-                        root->right->left = root->left;
-                        root = root->right;
-                    } else {
-                        
-                    }
+                  rotateRight(root->right);
+                  rotateLeft(root);
                 }
             }
         }
