@@ -43,11 +43,11 @@ btree *pop(stack *s) {
 }
 
 btree *peek(stack *s) {
-    if (!isEmpty) {
+    // if (!isEmpty) {
         return s->stack[s->top];    
-    } else {
-        return NULL;
-    }
+    // } else {
+        // return NULL;
+    // }
 }
 
 bool isEmpty(stack *s) {
@@ -67,6 +67,7 @@ void displayStack(stack *s) {
     for (i = 0; i <= s->top; i++) {
         printf("%c ", s->stack[i]->data);
     }
+    printf("\n");
 }
 
 #endif /* QUEUE_H */

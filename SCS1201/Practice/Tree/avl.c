@@ -21,20 +21,18 @@ void rotateLeft(btree *root) {
     }
 }
 
-void rotateRight(btree *root) {
-    if (root->left->right == NULL) {
-        root->left->right = root;
-        root = root->left;
-    } else {
-        btree *temp = root->left->right;
-        root->left->right = root;
-        root = root->left;
-        root->right->left = temp;
-    }
+btree* rotateRight(btree *root) {
+    printf("rotation\n");
+    btree *left = root->left;
+    btree *subRight = left->right;
+    left->right = root;
+    root->left = subRight;
+    return root;
 }
 
 btree *insert(btree *root, int data) {
     if (root == NULL) {
+        printf("Inserting %d\n", data);
         root = getVertex(data);
         return root;
     } else {
@@ -46,19 +44,24 @@ btree *insert(btree *root, int data) {
         int right = getHeight(root->right);
         int diff = abs(left - right);
         if (diff >= 2) {
+            printf("Has diff\n");
             if (root->data > data) {
+                printf("Greater left\n");
                 if (root->left->data > data) {
-                    rotateRight(root);
+                    printf("Stright line\n");
+                    root = rotateRight(root);
                 } else {
-                    rotateLeft(root->left);
-                    rotateRight(root);
+                    printf("Dog leg\n");
+            //         rotateLeft(root->left);
+            //         rotateRight(root);
                 }
             } else if (root->data < data) {
+                printf("Greater right\n");
                 if (root->right->data < data) {
-                    rotateLeft(root);
+            //         rotateLeft(root);
                 } else {
-                  rotateRight(root->right);
-                  rotateLeft(root);
+            //       rotateRight(root->right);
+            //       rotateLeft(root);
                 }
             }
         }
@@ -102,11 +105,11 @@ void levelOrderTraverse(btree *root) {
 int main() {
     ROOT = insert(ROOT, 6);
     insert(ROOT, 4);
-    insert(ROOT, 5);
-    insert(ROOT, 8);
-    insert(ROOT, 7);
-    insert(ROOT, 10);
-    insert(ROOT, 11);
+    insert(ROOT, 3);
+    // insert(ROOT, 8);
+    // insert(ROOT, 7);
+    // insert(ROOT, 10);
+    // insert(ROOT, 11);
     levelOrderTraverse(ROOT);
     return 0;
 }

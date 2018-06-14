@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-"
+
 struct structTree {
     int key;
     struct structTree* right;
@@ -25,11 +25,9 @@ tree* insertEdge(tree *root, int key) {
     return root;
 }
 
-tree *getDeepest(tree *root) {
+tree *getLeftMost(tree *root) {
     if (root->left != NULL) {
-        return getDeepest(root->left);
-    } else if (root->right != NULL) {
-        return getDeepest(root->right);
+        return getLeftMost(root->left);
     } else {
         return root;
     }
@@ -47,7 +45,7 @@ tree *deleteEdge(tree *root, int key) {
                 root = root->left;
                 free(temp);
             } else {
-                tree *lowestInRightBranch = getDeepest(root->right);
+                tree *lowestInRightBranch = getLeftMost(root->right);
                 root->key = lowestInRightBranch->key;
                 root->right = deleteEdge(root->right, lowestInRightBranch->key);
             }
