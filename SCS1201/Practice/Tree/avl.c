@@ -9,16 +9,12 @@ int getHeight(btree *root);
 void printLevel(btree *root, int level);
 void leveOrderTraverse(btree *root);
 
-void rotateLeft(btree *root) {
-    if (root->right->left == NULL) {
-        root->right->left = root;
-        root = root->right;
-    } else {
-        btree *temp = root->right->left;
-        root->right->left = root;
-        root = root->right;
-        root->left->right = temp;
-    }
+btree *rotateLeft(btree *root) {
+    btree *right = root->right;
+    btree *subLeft= right->left;
+    right->left = root;
+    root->right = subLeft;
+    return right;
 }
 
 btree* rotateRight(btree *root) {
@@ -27,7 +23,7 @@ btree* rotateRight(btree *root) {
     btree *subRight = left->right;
     left->right = root;
     root->left = subRight;
-    return root;
+    return left;
 }
 
 btree *insert(btree *root, int data) {
@@ -58,8 +54,10 @@ btree *insert(btree *root, int data) {
             } else if (root->data < data) {
                 printf("Greater right\n");
                 if (root->right->data < data) {
-            //         rotateLeft(root);
+                    printf("Stright line\n");
+                    root = rotateLeft(root);
                 } else {
+                    printf("Dog leg\n");                    
             //       rotateRight(root->right);
             //       rotateLeft(root);
                 }
@@ -104,10 +102,11 @@ void levelOrderTraverse(btree *root) {
 
 int main() {
     ROOT = insert(ROOT, 6);
-    insert(ROOT, 4);
+    insert(ROOT, 7);
     insert(ROOT, 3);
-    // insert(ROOT, 8);
-    // insert(ROOT, 7);
+    levelOrderTraverse(ROOT);
+    insert(ROOT, 4);
+    insert(ROOT, 5);
     // insert(ROOT, 10);
     // insert(ROOT, 11);
     levelOrderTraverse(ROOT);
