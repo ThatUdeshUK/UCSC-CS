@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct node {
+typedef struct  node {
     int data;
     struct node* next;
-}; typedef struct node link;
+} link;
 
 link *START = NULL;
 
@@ -40,9 +40,13 @@ void insertNodeStart(int data) {
 }
 
 void insertNodeEnd(int data) {
-    link *lastNode = getLastNode();
+    link *PTR = START;
+    while (PTR->next != NULL) {
+        PTR = PTR->next;
+    }
+    // link *lastNode = getLastNode();
     link *newNode = getNode(data);
-    lastNode->next = newNode;
+    PTR->next = newNode;
 }
 
 void insertNodeBefore(int key, int data) {
