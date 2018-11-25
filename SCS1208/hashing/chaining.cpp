@@ -9,45 +9,50 @@ class HashMap
     int m;
     vector<pair<int, T>> *table;
 
-    int hash_func(int key) {
+    int hash_func(int key)
+    {
         return key % m;
     }
 
   public:
-    static const int NULL_KEY = -1998;
-
-    HashMap(int m){
+    HashMap(int m)
+    {
         this->m = m;
         this->table = new vector<pair<int, T>>[m];
     };
 
-    ~HashMap(){
-        for(size_t i = 0; i < m; i++)
+    ~HashMap()
+    {
+        for (size_t i = 0; i < m; i++)
         {
             vector<pair<int, T>>().swap(this->table[i]);
         }
-        
-        delete [] table;
+
+        delete[] table;
     }
 
-    void insert(int key, T value) {
+    void insert(int key, T value)
+    {
         this->table[hash_func(key)].push_back(make_pair(key, value));
     }
 
-    T search(int key) {
+    T search(int key)
+    {
         vector<pair<int, T>> cell = this->table[hash_func(key)];
-        
-        for(size_t i = 0; i < cell.size(); i++)
+
+        for (size_t i = 0; i < cell.size(); i++)
         {
-            if (cell[i].first == key) {
+            if (cell[i].first == key)
+            {
                 return cell[i].second;
             }
         }
-        return NULL_KEY;
+        throw invalid_argument("Key error");
     }
 };
 
-int main() {
+int main()
+{
     HashMap<int> hashMap(7);
     hashMap.insert(20, 100);
     hashMap.insert(9, 200);
@@ -56,8 +61,6 @@ int main() {
     cout << hashMap.search(30) << endl;
     cout << hashMap.search(17) << endl;
     cout << hashMap.search(9) << endl;
-    if (hashMap.search(10) == HashMap<int>::NULL_KEY) {
-        cout << "Not found" << endl;
-    }
+    cout << hashMap.search(10) << endl;
     return 0;
 }
