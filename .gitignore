@@ -5,3 +5,9 @@ SCS1201/Practice/Tree/bst
 SCS1201/Practice/Tree/expression
 SCS1201/Practice/Tree/new_tree
 SCS1203/Assignment/Take Home/Implementation/.idea
+
+*.o
+*.zip
+*.odt
+
+.vscode
