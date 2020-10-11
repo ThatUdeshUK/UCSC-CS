@@ -10,4 +10,7 @@ SCS1203/Assignment/Take Home/Implementation/.idea
 *.zip
 *.odt
 
+.idea
 .vscode
+
+*/**/venv
